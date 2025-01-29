@@ -4,24 +4,24 @@ import { useState } from 'react';
 interface AgeFilterProps {
   ageRange: AgeRange;
   onAgeChange: (ageRange: AgeRange) => void;
+  handleAgeRangeSubmit: (ageRange: AgeRange) => void;
 }
 
-export default function AgeSelector({ ageRange, onAgeChange }: AgeFilterProps) {
+export default function AgeSelector({ ageRange, onAgeChange, handleAgeRangeSubmit }: AgeFilterProps) {
   const [error, setError] = useState<string>('');
-  const [localAgeRange, setLocalAgeRange] = useState<AgeRange>(ageRange);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setLocalAgeRange((prev) => ({
-      ...prev,
+    onAgeChange({
+      ...ageRange,
       [name]: value === '' ? '' : Number(value),
-    }));
+    });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { ageMin, ageMax } = localAgeRange;
+    const { ageMin, ageMax } = ageRange;
 
     if (ageMin !== '' && ageMax !== '' && Number(ageMin) > Number(ageMax)) {
       setError('Minimum age cannot be greater than maximum age.');
@@ -29,7 +29,7 @@ export default function AgeSelector({ ageRange, onAgeChange }: AgeFilterProps) {
     }
 
     setError('');
-    onAgeChange(localAgeRange); 
+    handleAgeRangeSubmit(ageRange);
   };
 
   return (
@@ -41,7 +41,7 @@ export default function AgeSelector({ ageRange, onAgeChange }: AgeFilterProps) {
             type="number"
             id="ageMin"
             name="ageMin"
-            value={localAgeRange.ageMin} 
+            value={ageRange.ageMin}
             onChange={handleChange}
             placeholder="Enter min age"
             className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"
@@ -53,7 +53,7 @@ export default function AgeSelector({ ageRange, onAgeChange }: AgeFilterProps) {
             type="number"
             id="ageMax"
             name="ageMax"
-            value={localAgeRange.ageMax} 
+            value={ageRange.ageMax}
             onChange={handleChange}
             placeholder="Enter max age"
             className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"

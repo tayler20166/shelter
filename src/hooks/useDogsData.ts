@@ -21,7 +21,10 @@ export function useDogsData() {
     nextPage: null
   });
   const [ageRange, setAgeRange] = useState<AgeRange>({ ageMin: '', ageMax: '' });
-
+  const [localAgeRange, setLocalAgeRange] = useState<AgeRange>({ ageMin: '', ageMax: '' });
+  const handleAgeRangeSubmit = () => {
+    setAgeRange(localAgeRange);
+  };
   const [sortOptions, setSortOptions] = useState<GridSort[]>([
     {
       field: 'breed',
@@ -165,17 +168,5 @@ export function useDogsData() {
   }, [dogsIDs, API_BASE_URL]);
 
 
-
-
- 
-
-
-
- 
-
-
-
-
-
-  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, ageRange, setAgeRange, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination, sortOptions, activeSortOption, handleSortChange };
+  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, localAgeRange, setLocalAgeRange, handleAgeRangeSubmit, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination, sortOptions, activeSortOption, handleSortChange };
 }

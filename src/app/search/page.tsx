@@ -14,8 +14,9 @@ export default function Search() {
     categories,
     selectedCategories,
     setSelectedCategories,
-    setAgeRange,
-    ageRange,
+    localAgeRange,
+    setLocalAgeRange,
+    handleAgeRangeSubmit,
     pagination,
     fetchDogsIDsWithNav,
     optionsCardsPerPage,
@@ -40,10 +41,12 @@ export default function Search() {
           onItemClick={(category) => handleCategoryClick(category, selectedCategories, setSelectedCategories)}
           idPrefix="desktop"
         />
-        <AgeSelector 
-           ageRange={ageRange}
-           onAgeChange={setAgeRange} 
+        <AgeSelector
+          ageRange={localAgeRange}
+          onAgeChange={setLocalAgeRange}
+          handleAgeRangeSubmit={handleAgeRangeSubmit}
         />
+
       </div>
       <div className="w-full sm:w-3/4">
         <div className="flex justify-between mb-5">
@@ -86,9 +89,10 @@ export default function Search() {
           onItemClick={(category) => handleCategoryClick(category, selectedCategories, setSelectedCategories)}
           idPrefix="mobile"
         />
-        <AgeSelector 
-        ageRange={ageRange}
-        onAgeChange={setAgeRange} 
+        <AgeSelector
+          ageRange={localAgeRange}
+          onAgeChange={setLocalAgeRange}
+          handleAgeRangeSubmit={handleAgeRangeSubmit}
         />
         <GridCardsPerPage
           className="mb-4 mt-3"
