@@ -9,12 +9,12 @@ interface DogGridCardProps {
 export default function DogGridCard({ dog, isFavorite, onToggleFavorite, onCancelClick }: DogGridCardProps) {
 
     return (
-        <div className="bg-white border border-[#f5f5f5] min-w-[280px] rounded-md drop-shadow-xl" key={dog.id}>
+        <div data-testid="dog-card" className="dark:bg-[#1e1f23] bg-white border border-[#f5f5f5] min-w-[280px] rounded-md drop-shadow-xl" key={dog.id}>
             <div className="relative w-full aspect-[4/3] bg-center bg-no-repeat bg-cover"
                 style={{ backgroundImage: `url(${dog.img})` }}
             >
                 {onCancelClick && (
-                    <button onClick={() => { onCancelClick(dog) }}>
+                    <button data-testid="cancel-dog-button" onClick={() => { onCancelClick(dog) }}>
                         <span className="material-symbols-outlined absolute top-[5px] right-[5px] cursor pointer bg-white bg-opacity-10">
                             close
                         </span>
@@ -25,7 +25,7 @@ export default function DogGridCard({ dog, isFavorite, onToggleFavorite, onCance
                 <div className="flex justify-between">
                     <div className="text-xl font-semibold mb-2">{dog.name} </div>
                     {onToggleFavorite && (
-                        <div><button onClick={() => { onToggleFavorite(dog) }}>
+                        <div><button data-testid="toggle-favorite-dog-button" onClick={() => { onToggleFavorite(dog) }}>
                             <span className={`material-symbols-outlined ${isFavorite ? 'filled' : ''}`}>
                                 favorite
                             </span>

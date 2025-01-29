@@ -37,10 +37,10 @@ export default function LoginForm() {
     };
 
     return (
-        <form className="w-[340px] border-[1px] border-[#efefef] rounded-md drop-shadow-2xl bg-white p-4 mt-5" onSubmit={handleSubmit} >
+        <form className="dark:bg-[#1e1f23] dark:text-white w-[340px] border-[1px] border-[#efefef] rounded-md drop-shadow-2xl bg-white p-4 mt-5" onSubmit={handleSubmit} >
             <h3 className="text-2xl mb-2 text-center">Log in</h3>
-            <input type="text" name="name" className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md mb-2 px-2" onChange={handleChange} />
-            <input type="text" name="email" className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md mb-2 px-2" onChange={handleChange} />
+            <input type="text" name="name" placeholder="Name..." className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md mb-2 px-2" onChange={handleChange} />
+            <input type="text" name="email" placeholder="Email..." className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md mb-2 px-2" onChange={handleChange} />
             <input type="submit" className="block w-[100%] border-[1px] border-[#efefef] rounded-md bg-[#14b1bb] py-2 text-white" />
         </form>
     )

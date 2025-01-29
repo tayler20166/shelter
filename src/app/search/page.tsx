@@ -16,7 +16,7 @@ export default function Search() {
     setAgeRange,
     setSort,
     pagination,
-    fetchDogsWithNav,
+    fetchDogsIDsWithNav,
     optionsCardsPerPage,
     cardsPerPage,
     dogs,
@@ -45,8 +45,8 @@ export default function Search() {
 
         <DogGrid dogs={dogs} />
         <div className="flex">
-          {pagination.prevPage && <button className="mr-auto" onClick={() => handlePrevPage(pagination.prevPage as string, fetchDogsWithNav)}>prev</button>}
-          {pagination.nextPage && <button className="ml-auto" onClick={() => handleNextPage(pagination.nextPage as string, fetchDogsWithNav)}>next</button>}
+          {pagination.prevPage && <button className="mr-auto" onClick={() => handlePrevPage(pagination.prevPage as string, fetchDogsIDsWithNav)}>prev</button>}
+          {pagination.nextPage && <button className="ml-auto" onClick={() => handleNextPage(pagination.nextPage as string, fetchDogsIDsWithNav)}>next</button>}
         </div>
 
       </div>

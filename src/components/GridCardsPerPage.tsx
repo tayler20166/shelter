@@ -7,9 +7,9 @@ type GridCardsPerPageProps = {
 
 export default function GridCardsPerPage({ options, activeOption, handleChange }: GridCardsPerPageProps) {
   return (
-    <div className="pt-2">
+    <div data-testid="posts-per-page-selector" className="pt-2">
       <label htmlFor="posts-per-page">Cards per page:</label>
-      <select id="posts-per-page" value={activeOption} onChange={handleChange}>
+      <select className="dark:bg-[#1e1f23]" id="posts-per-page" value={activeOption} onChange={handleChange}>
         {options.map((value) => (
           <option key={value} value={value}>
             {value}

@@ -15,7 +15,7 @@ export default function Header() {
                     <div><span className="material-icons material-symbols-outlined text-xl relative top-[5px] mr-2">mail</span>artem.kamkov@gmail.com</div>
                 </div>
             </div>
-            <div className="bg-white">
+            <div className="dark:bg-[#1e1f23] bg-white">
                 <div className="container m-auto py-4 flex justify-between">
                     <Link className="logo text-3xl font-bold" href="/">Dogs Shelter</Link>
                     <div>

@@ -30,7 +30,7 @@ export default function AgeSelector({ onAgeChange }: AgeFilterProps) {
   };
 
   return (
-    <div className="bg-white drop-shadow-xl px-3 max-h-[400px] overflow-auto custom-scrollbar py-4">
+    <div data-testid="age-selector" className="dark:bg-[#1e1f23] bg-white drop-shadow-xl px-3 max-h-[400px] overflow-auto custom-scrollbar py-4">
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="ageMin" className="block mb-1">Minimum Age:</label>

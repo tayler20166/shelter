@@ -24,13 +24,13 @@
     ],
     "baseUrl": "./",
     "paths": {
-      // "@/*": [
-      //   "./src/*",
-      // ],
-      "@/components/*": ["src/components/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/app/*": ["src/app/*"]
+      "@/*": [
+        "./src/*",
+      ],
+      // "@/components/*": ["src/components/*"],
+      // "@/hooks/*": ["src/hooks/*"],
+      // "@/utils/*": ["src/utils/*"],
+      // "@/app/*": ["src/app/*"]
     },
     "types": [
       "jest"

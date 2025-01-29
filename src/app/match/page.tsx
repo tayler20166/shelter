@@ -10,14 +10,14 @@ import DogGridCard from '@/components/DogGridCard';
 export default function Match() {
     const { storedDogs, removeFavoriteDog, favoriteDogIds } = useFavorites();
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-    const dialogRef = useRef<HTMLDialogElement>(null);
+    const dialogRef = useRef<HTMLDialogElement | null>(null);
     const [dogData, setDogData] = useState<Dog | null>(null);
 
     const removeFavorite = (dog: Dog) => {
         removeFavoriteDog(dog);
     };
-    const requestDog = async () => {
 
+    const requestDog = async () => {
         const result: MatchResult = await fetchData(API_BASE_URL + '/dogs/match', {
             method: 'POST',
             credentials: 'include',
@@ -36,8 +36,6 @@ export default function Match() {
                 body: JSON.stringify([result.match]),
             });
             if (data[0]) {
-
-
                 setDogData(data[0]);
                 dialogRef.current?.showModal();
             }
@@ -55,7 +53,7 @@ export default function Match() {
                 <h1 className="text-2xl font-bold mb-4">Your Favorite Dogs</h1>
                 <p>Make a request to get a suitable dog for you by clicking the button</p>
 
-                <button onClick={requestDog} className="bg-red-500 text-white text-xl px-8 py-3 mt-4">PUSH THE BUTTON</button>
+                <button data-testid="dog-button-popup" onClick={requestDog} className="bg-red-500 text-white text-xl px-8 py-3 mt-4">PUSH THE BUTTON</button>
             </div>
 
 

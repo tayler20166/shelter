@@ -39,7 +39,7 @@ export function useDogsData() {
       } catch (err) {
         console.error('Error fetching breeds:', err);
       }
-      fetchDogs([], ageRange, sort, cardsPerPage);
+      fetchDogsIDs([], ageRange, sort, cardsPerPage);
     }
 
     fetchBreeds();
@@ -51,13 +51,13 @@ export function useDogsData() {
       return;
     }
     if (selectedCategories.length > 0) {
-      fetchDogs(selectedCategories, ageRange, sort, cardsPerPage);
+      fetchDogsIDs(selectedCategories, ageRange, sort, cardsPerPage);
     } else {
-      fetchDogs([], ageRange, sort, cardsPerPage);
+      fetchDogsIDs([], ageRange, sort, cardsPerPage);
     }
   }, [selectedCategories, ageRange, sort, cardsPerPage]);
 
-  const fetchDogs = async (selectedCategoriesArr: string[], ageRange: AgeRange, sort: GridSort, cardsPerPage: number) => {
+  const fetchDogsIDs = async (selectedCategoriesArr: string[], ageRange: AgeRange, sort: GridSort, cardsPerPage: number) => {
     setLoading(true);
     setError(null);
     try {
@@ -82,7 +82,7 @@ export function useDogsData() {
     }
   };
 
-  const fetchDogsWithNav = async (link: string | null) => {
+  const fetchDogsIDsWithNav = async (link: string | null) => {
     if (link) {
       try {
         const searchResult = await fetchData<DogIDs>(`${API_BASE_URL}${link}`, {
@@ -107,7 +107,7 @@ export function useDogsData() {
   };
 
   useEffect(() => {
-    async function fetchDogsObjects() {
+    async function fetchDogs() {
       if (dogsIDs) {
         try {
           const response = await fetch(`${API_BASE_URL}/dogs`, {
@@ -131,9 +131,9 @@ export function useDogsData() {
         }
       }
     };
-    fetchDogsObjects();
+    fetchDogs();
   }, [dogsIDs, API_BASE_URL]);
 
 
-  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogs, ageRange, setAgeRange, sort, setSort, loading, error, fetchDogsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination };
+  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, ageRange, setAgeRange, sort, setSort, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination };
 }

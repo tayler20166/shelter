@@ -6,7 +6,7 @@ type CategorySelectorProps = {
 
 export default function CategorySelector({ items, activeItems, onItemClick }: CategorySelectorProps) {
     return (
-        <ul className="bg-white drop-shadow-xl px-3 max-h-[400px] overflow-auto custom-scrollbar mb-4 py-4">
+        <ul data-testid="category-selector" className="dark:bg-[#1e1f23] bg-white drop-shadow-xl px-3 max-h-[400px] overflow-auto custom-scrollbar mb-4 py-4">
             {items.map((item: string) => (
                 <li key={item} className="flex items-center space-x-2 cursor-pointer">
                     <input
