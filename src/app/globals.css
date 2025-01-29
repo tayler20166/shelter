@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon=mail,favorite,close');
+@import url('https://fonts.googleapis.com/css2?family=Livvic:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -17,5 +19,74 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Livvic", serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+.filled {
+  font-variation-settings:
+      'FILL' 1,
+      'wght' 400,
+      'GRAD' 0,
+      'opsz' 48;
+  color: red; /* Optional: Change color when filled */
+}
+
+
+.custom-checkbox {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgb(175, 175, 175);
+  border-radius: 4px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: white;
+  cursor: pointer;
+}
+
+.custom-checkbox:checked {
+  background-color: #14b1bb;
+  border-color: #14b1bb;
+  position: relative;
+}
+
+.custom-checkbox:checked::after {
+  content: '✔';
+  font-size: 16px;
+  color: white; /* White tick */
+  position: absolute;
+  left: 1px;
+  top: -3px;
+}
+
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgb(228, 228, 228);
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #14b1bb;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #14b1bb;
+}
+
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #14b1bb rgb(228, 228, 228);
 }
