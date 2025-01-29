@@ -16,7 +16,7 @@ const CustomDialog = forwardRef<HTMLDialogElement, CustomDialogProps>(
         <div className="dark:bg-[#1e1f23] dark:text-white  relative w-[100%] md:w-[700px] flex flex-col items-center justify-center p-5">
           {title && <h3 className="text-2xl mb-4 font-bold">{title}</h3>}
           {subtitle && <p className="text-lg mb-5">{subtitle}</p>}
-          {wrappedChildren}
+          <div data-testid="dog-grid-card-match">{wrappedChildren}</div>
           <button data-testid="dog-button-close-popup" className="absolute top-[15px] right-[35px]" onClick={onClose}>
             <span className="material-symbols-outlined absolute cursor pointer bg-white bg-opacity-10">
               close

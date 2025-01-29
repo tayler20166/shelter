@@ -34,4 +34,5 @@ export interface AgeRange {
 export interface GridSort {
     field: string;
     order: 'asc' | 'desc';
+    text: string;
 }

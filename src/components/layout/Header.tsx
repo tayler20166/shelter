@@ -5,7 +5,6 @@ import Link from 'next/link';
 
 export default function Header() {
     const pathname = usePathname();
-    console.log(pathname);
 
     const bread = pathname === "/" ? "Home" : "Home > " + pathname.substring(1);
     return (
@@ -16,7 +15,7 @@ export default function Header() {
                 </div>
             </div>
             <div className="dark:bg-[#1e1f23] bg-white">
-                <div className="container m-auto py-4 flex justify-between">
+                <div className="container m-auto py-4 flex flex-col sm:flex-row sm:justify-between items-center">
                     <Link className="logo text-3xl font-bold" href="/">Dogs Shelter</Link>
                     <div>
                         <Link className="hover:underline" href="/">Home</Link>

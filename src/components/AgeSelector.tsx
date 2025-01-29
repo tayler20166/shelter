@@ -1,32 +1,35 @@
+import { AgeRange } from '@/types/Interfaces';
 import { useState } from 'react';
 
 interface AgeFilterProps {
-  onAgeChange: (range: { ageMin: string | number; ageMax: string | number }) => void;
+  ageRange: AgeRange;
+  onAgeChange: (ageRange: AgeRange) => void;
 }
 
-export default function AgeSelector({ onAgeChange }: AgeFilterProps) {
-  const [ageMin, setAgeMin] = useState<number | ''>('');
-  const [ageMax, setAgeMax] = useState<number | ''>('');
-  const [error, setError] = useState<string | ''>('');
+export default function AgeSelector({ ageRange, onAgeChange }: AgeFilterProps) {
+  const [error, setError] = useState<string>('');
+  const [localAgeRange, setLocalAgeRange] = useState<AgeRange>(ageRange);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    const numericValue = value === '' ? '' : Number(value);
-
-    if (name === 'ageMin') {
-      setAgeMin(numericValue);
-    } else if (name === 'ageMax') {
-      setAgeMax(numericValue);
-    }
+    setLocalAgeRange((prev) => ({
+      ...prev,
+      [name]: value === '' ? '' : Number(value),
+    }));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (ageMin !== '' && ageMax !== '' && ageMin > ageMax) {
+
+    const { ageMin, ageMax } = localAgeRange;
+
+    if (ageMin !== '' && ageMax !== '' && Number(ageMin) > Number(ageMax)) {
       setError('Minimum age cannot be greater than maximum age.');
       return;
     }
-    onAgeChange({ ageMin, ageMax });
+
+    setError('');
+    onAgeChange(localAgeRange); 
   };
 
   return (
@@ -38,7 +41,7 @@ export default function AgeSelector({ onAgeChange }: AgeFilterProps) {
             type="number"
             id="ageMin"
             name="ageMin"
-            value={ageMin}
+            value={localAgeRange.ageMin} 
             onChange={handleChange}
             placeholder="Enter min age"
             className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"
@@ -50,14 +53,16 @@ export default function AgeSelector({ onAgeChange }: AgeFilterProps) {
             type="number"
             id="ageMax"
             name="ageMax"
-            value={ageMax}
+            value={localAgeRange.ageMax} 
             onChange={handleChange}
             placeholder="Enter max age"
-             className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"
+            className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"
           />
         </div>
-        <button type="submit" className="border-[1px] border-[#efefef] rounded-md bg-[#14b1bb] py-1 px-4 text-white">Submit</button>
-        <div>{error}</div>
+        <button type="submit" className="border-[1px] border-[#efefef] rounded-md bg-[#14b1bb] py-1 px-4 text-white">
+          Submit
+        </button>
+        {error && <div className="text-red-500 mt-2">{error}</div>}
       </form>
     </div>
   );

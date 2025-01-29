@@ -21,7 +21,35 @@ export function useDogsData() {
     nextPage: null
   });
   const [ageRange, setAgeRange] = useState<AgeRange>({ ageMin: '', ageMax: '' });
-  const [sort, setSort] = useState<GridSort>({ field: 'breed', order: 'asc' });
+
+  const [sortOptions, setSortOptions] = useState<GridSort[]>([
+    {
+      field: 'breed',
+      order: 'asc',
+      text: 'Breed ↑ (Ascending)'
+    },
+    {
+      field: 'breed',
+      order: 'desc',
+      text: 'Breed ↓ (Descending)'
+    },
+  ]);
+  const [activeSortOption, setActiveSortOption] = useState<GridSort>({
+    field: 'breed',
+    order: 'asc',
+    text: 'Breed ↑ (Ascending)'
+  });
+  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const [field, order] = e.target.value.split(':');
+
+    const newSortOption = sortOptions.find(
+      (option) => option.field === field && option.order === order
+    );
+
+    if (newSortOption) {
+      setActiveSortOption(newSortOption);
+    }
+  };
   const [isFirstRun, setIsFirstRun] = useState(true);
   const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
@@ -39,29 +67,31 @@ export function useDogsData() {
       } catch (err) {
         console.error('Error fetching breeds:', err);
       }
-      fetchDogsIDs([], ageRange, sort, cardsPerPage);
+      fetchDogsIDs([], ageRange, activeSortOption, cardsPerPage);
     }
 
     fetchBreeds();
   }, [API_BASE_URL]);
 
   useEffect(() => {
+    console.log(ageRange);
+    
     if (isFirstRun) {
       setIsFirstRun(false);
       return;
     }
     if (selectedCategories.length > 0) {
-      fetchDogsIDs(selectedCategories, ageRange, sort, cardsPerPage);
+      fetchDogsIDs(selectedCategories, ageRange, activeSortOption, cardsPerPage);
     } else {
-      fetchDogsIDs([], ageRange, sort, cardsPerPage);
+      fetchDogsIDs([], ageRange, activeSortOption, cardsPerPage);
     }
-  }, [selectedCategories, ageRange, sort, cardsPerPage]);
+  }, [selectedCategories, ageRange, activeSortOption, cardsPerPage]);
 
-  const fetchDogsIDs = async (selectedCategoriesArr: string[], ageRange: AgeRange, sort: GridSort, cardsPerPage: number) => {
+  const fetchDogsIDs = async (selectedCategoriesArr: string[], ageRange: AgeRange, activeSortOption: GridSort, cardsPerPage: number) => {
     setLoading(true);
     setError(null);
     try {
-      const queryParams = buildSearchQueryParams(selectedCategoriesArr, ageRange, sort, cardsPerPage);
+      const queryParams = buildSearchQueryParams(selectedCategoriesArr, ageRange, activeSortOption, cardsPerPage);
       const searchResult = await fetchData<DogIDs>(`${API_BASE_URL}/dogs/search${queryParams}`, {
         method: 'GET',
         credentials: 'include',
@@ -135,5 +165,17 @@ export function useDogsData() {
   }, [dogsIDs, API_BASE_URL]);
 
 
-  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, ageRange, setAgeRange, sort, setSort, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination };
+
+
+ 
+
+
+
+ 
+
+
+
+
+
+  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, ageRange, setAgeRange, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination, sortOptions, activeSortOption, handleSortChange };
 }

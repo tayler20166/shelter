@@ -8,7 +8,6 @@ export const logoutHandler = async () => {
         });
 
         if (res.ok) {
-            localStorage.removeItem("logged");
             window.location.href = "/";
         } else {
             console.log('Logout failed with status:', res.status);

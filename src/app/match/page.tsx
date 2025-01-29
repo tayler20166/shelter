@@ -12,41 +12,53 @@ export default function Match() {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const dialogRef = useRef<HTMLDialogElement | null>(null);
     const [dogData, setDogData] = useState<Dog | null>(null);
+    const [error, setError] = useState<Error | null>(null);
 
     const removeFavorite = (dog: Dog) => {
         removeFavoriteDog(dog);
     };
 
     const requestDog = async () => {
-        const result: MatchResult = await fetchData(API_BASE_URL + '/dogs/match', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(favoriteDogIds),
-        });
-        if (result) {
-            const data: Dog[] = await fetchData(API_BASE_URL + '/dogs', {
+        try {
+            setError(null);
+            const result: MatchResult = await fetchData(API_BASE_URL + '/dogs/match', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify([result.match]),
+                body: JSON.stringify(favoriteDogIds),
             });
-            if (data[0]) {
-                setDogData(data[0]);
-                dialogRef.current?.showModal();
-            }
+            if (result) {
+                const data: Dog[] = await fetchData(API_BASE_URL + '/dogs', {
+                    method: 'POST',
+                    credentials: 'include',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify([result.match]),
+                });
+                if (data[0]) {
+                    setDogData(data[0]);
+                    dialogRef.current?.showModal();
+                }
 
+            }
+        } catch (e: unknown) {
+            if (e instanceof Error) {
+                setError(e);
+
+            } else {
+                console.error('An unknown error occurred');
+            }
         }
+
     };
     const closeDialog = () => {
         setDogData(null);
         dialogRef.current?.close();
     };
-    
+
     return (
         <div className="container mx-auto p-4">
             <div className="text-center mb-8">
@@ -62,9 +74,9 @@ export default function Match() {
                 subtitle="Match was done based on your favorite dogs list."
                 ref={dialogRef}
                 onClose={closeDialog}>
-                {dogData && <DogGridCard dog={dogData} />}
+                {dogData ? <DogGridCard dog={dogData} /> : undefined}
             </CustomDialog>
-          
+
             {storedDogs.length > 0 ? (
                 <DogGrid
                     dogs={storedDogs}
@@ -73,6 +85,7 @@ export default function Match() {
             ) : (
                 <p className="text-lg">You have no favorite dogs yet.</p>
             )}
+            {error && <p className="text-lg text-red-500">{error.message}. Try to add dogs to your favorite list</p>}
         </div>
     );
 }

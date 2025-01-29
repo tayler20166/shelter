@@ -31,11 +31,12 @@ export function useFavorites() {
 
             const updatedFavoriteIds = favoriteDogIds.filter((id) => id !== dog.id);
             setFavoriteDogIds(updatedFavoriteIds);
+            
             localStorage.setItem('favoriteDogs', JSON.stringify(updatedStoredDogs));
         } else {
             const updatedStoredDogs = [...storedDogs, { ...dog }];
             setStoredDogs(updatedStoredDogs);
-
+         
             const updatedFavoriteIds = [...favoriteDogIds, dog.id];
             setFavoriteDogIds(updatedFavoriteIds);
             localStorage.setItem('favoriteDogs', JSON.stringify(updatedStoredDogs));

@@ -7,10 +7,6 @@ type SidebarProps = {
 };
 
 export default function Sidebar({ items, activeItems, onItemClick }: SidebarProps) {
-    useEffect(() => {
-        console.log('Sidebar items updated:', items);
-    }, [items]);
-
     return (
         <ul className="bg-white drop-shadow-xl px-3">
             {items.map((item: string) => (

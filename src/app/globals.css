@@ -25,18 +25,20 @@ body {
 
 .material-symbols-outlined {
   font-variation-settings:
-  'FILL' 0,
-  'wght' 400,
-  'GRAD' 0,
-  'opsz' 24
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24
 }
+
 .filled {
   font-variation-settings:
-      'FILL' 1,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 48;
-  color: red; /* Optional: Change color when filled */
+    'FILL' 1,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48;
+  color: red;
+  /* Optional: Change color when filled */
 }
 
 
@@ -61,7 +63,8 @@ body {
 .custom-checkbox:checked::after {
   content: '✔';
   font-size: 16px;
-  color: white; /* White tick */
+  color: white;
+  /* White tick */
   position: absolute;
   left: 1px;
   top: -3px;
@@ -89,4 +92,8 @@ body {
 .custom-scrollbar {
   scrollbar-width: thin;
   scrollbar-color: #14b1bb rgb(228, 228, 228);
+}
+
+[data-testid="dog-popup"] [data-testid="dog-card"] {
+  min-width: 280px;
 }

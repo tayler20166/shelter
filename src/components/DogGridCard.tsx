@@ -9,7 +9,7 @@ interface DogGridCardProps {
 export default function DogGridCard({ dog, isFavorite, onToggleFavorite, onCancelClick }: DogGridCardProps) {
 
     return (
-        <div data-testid="dog-card" className="dark:bg-[#1e1f23] bg-white border border-[#f5f5f5] min-w-[280px] rounded-md drop-shadow-xl" key={dog.id}>
+        <div data-testid="dog-card" className="dark:bg-[#1e1f23] bg-white border border-[#f5f5f5] rounded-md drop-shadow-xl" key={dog.id}>
             <div className="relative w-full aspect-[4/3] bg-center bg-no-repeat bg-cover"
                 style={{ backgroundImage: `url(${dog.img})` }}
             >
