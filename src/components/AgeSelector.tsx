@@ -46,7 +46,7 @@ export default function AgeSelector({ ageRange, onAgeChange, handleAgeRangeSubmi
             value={ageRange.ageMin}
             onChange={handleChange}
             placeholder="Enter min age"
-            className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"
+            className="block w-full border border-1 rounded-md border-[#afafaf] mb-2 px-1"
           />
         </div>
         <div>
@@ -60,7 +60,7 @@ export default function AgeSelector({ ageRange, onAgeChange, handleAgeRangeSubmi
             value={ageRange.ageMax}
             onChange={handleChange}
             placeholder="Enter max age"
-            className="block border border-1 rounded-md border-[#afafaf] mb-2 px-1"
+            className="block w-full border border-1 rounded-md border-[#afafaf] mb-2 px-1"
           />
         </div>
         <button type="submit" className="border-[1px] border-[#efefef] rounded-md bg-[#14b1bb] py-1 px-4 text-white">
