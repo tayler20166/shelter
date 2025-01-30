@@ -41,6 +41,8 @@ export default function AgeSelector({ ageRange, onAgeChange, handleAgeRangeSubmi
             type="number"
             id="ageMin"
             name="ageMin"
+            min="0"
+            max="25"
             value={ageRange.ageMin}
             onChange={handleChange}
             placeholder="Enter min age"
@@ -53,6 +55,8 @@ export default function AgeSelector({ ageRange, onAgeChange, handleAgeRangeSubmi
             type="number"
             id="ageMax"
             name="ageMax"
+            min="0"
+            max="25"
             value={ageRange.ageMax}
             onChange={handleChange}
             placeholder="Enter max age"
