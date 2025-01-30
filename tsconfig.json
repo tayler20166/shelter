@@ -27,10 +27,6 @@
       "@/*": [
         "./src/*",
       ],
-      // "@/components/*": ["src/components/*"],
-      // "@/hooks/*": ["src/hooks/*"],
-      // "@/utils/*": ["src/utils/*"],
-      // "@/app/*": ["src/app/*"]
     },
     "types": [
       "jest"
