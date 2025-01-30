@@ -3,10 +3,10 @@ import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { API_URL } from "@/constants";
 
 export default function LoginForm() {
     const router = useRouter();
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
     const [formData, setFormData] = useState({
         name: "",
@@ -46,7 +46,7 @@ export default function LoginForm() {
         e.preventDefault();
         if (!validate()) return;
         try {
-            const res = await fetch(`${API_BASE_URL}/auth/login`, {
+            const res = await fetch(`${API_URL}/auth/login`, {
                 method: "POST",
                 credentials: "include",
                 headers: {

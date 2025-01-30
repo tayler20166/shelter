@@ -6,10 +6,10 @@ import DogGrid from '@/components/DogGrid';
 import { fetchData } from '@/utils/fetchData';
 import CustomDialog from '@/components/CustomDialog';
 import DogGridCard from '@/components/DogGridCard';
+import { API_URL } from "@/constants";
 
 export default function Match() {
     const { storedDogs, removeFavoriteDog, favoriteDogIds } = useFavorites();
-    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const dialogRef = useRef<HTMLDialogElement | null>(null);
     const [dogData, setDogData] = useState<Dog | null>(null);
 
@@ -19,7 +19,7 @@ export default function Match() {
 
     const requestDog = async () => {
         try {
-            const result: MatchResult = await fetchData(API_BASE_URL + '/dogs/match', {
+            const result: MatchResult = await fetchData(API_URL + '/dogs/match', {
                 method: 'POST',
                 credentials: 'include',
                 headers: {
@@ -28,7 +28,7 @@ export default function Match() {
                 body: JSON.stringify(favoriteDogIds),
             });
             if (result) {
-                const data: Dog[] = await fetchData(API_BASE_URL + '/dogs', {
+                const data: Dog[] = await fetchData(API_URL + '/dogs', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Dog, DogIDs, AgeRange, GridSort } from '@/types/Interfaces';
 import { buildSearchQueryParams } from '@/utils/queryBuilder';
 import { fetchData } from '@/utils/fetchData';
+import { API_URL } from "@/constants";
 
 export function useDogsData() {
   const [categories, setCategories] = useState<string[]>([]);
@@ -53,7 +54,6 @@ export function useDogsData() {
     }
   };
   const [isFirstRun, setIsFirstRun] = useState(true);
-  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
   useEffect(() => {
     async function fetchBreeds() {
@@ -62,7 +62,7 @@ export function useDogsData() {
         if (cachedBreeds) {
           setCategories(JSON.parse(cachedBreeds));
         } else {
-          const data = await fetchData<string[]>(`${API_BASE_URL}/dogs/breeds`, { credentials: 'include' });
+          const data = await fetchData<string[]>(`${API_URL}/dogs/breeds`, { credentials: 'include' });
           setCategories(data);
           localStorage.setItem('breeds', JSON.stringify(data));
         }
@@ -92,7 +92,7 @@ export function useDogsData() {
     setError(null);
     try {
       const queryParams = buildSearchQueryParams(selectedCategoriesArr, ageRange, activeSortOption, cardsPerPage);
-      const searchResult = await fetchData<DogIDs>(`${API_BASE_URL}/dogs/search${queryParams}`, {
+      const searchResult = await fetchData<DogIDs>(`${API_URL}/dogs/search${queryParams}`, {
         method: 'GET',
         credentials: 'include',
       });
@@ -115,7 +115,7 @@ export function useDogsData() {
   const fetchDogsIDsWithNav = async (link: string | null) => {
     if (link) {
       try {
-        const searchResult = await fetchData<DogIDs>(`${API_BASE_URL}${link}`, {
+        const searchResult = await fetchData<DogIDs>(`${API_URL}${link}`, {
           method: 'GET',
           credentials: 'include',
         });
@@ -140,7 +140,7 @@ export function useDogsData() {
     async function fetchDogs() {
       if (dogsIDs) {
         try {
-          const response = await fetch(`${API_BASE_URL}/dogs`, {
+          const response = await fetch(`${API_URL}/dogs`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'
@@ -162,7 +162,7 @@ export function useDogsData() {
       }
     };
     fetchDogs();
-  }, [dogsIDs, API_BASE_URL]);
+  }, [dogsIDs, API_URL]);
 
 
   return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, localAgeRange, setLocalAgeRange, handleAgeRangeSubmit, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination, sortOptions, activeSortOption, handleSortChange };
