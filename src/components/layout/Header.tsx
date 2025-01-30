@@ -21,7 +21,7 @@ export default function Header() {
                         <Link className="hover:underline" href="/">Home</Link>
                         <Link className="ml-2 hover:underline" href="/search">Search</Link>
                         <Link className="ml-2 hover:underline" href="/match">Match</Link>
-                        <button className="ml-8" onClick={logoutHandler}>Log out</button>
+                        {pathname !== "/" && <button className="ml-8" onClick={logoutHandler}>Log out</button>}
                     </div>
                 </div>
             </div>

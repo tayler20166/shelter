@@ -1,8 +1,22 @@
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 export const fetchData = async <T>(url: string, options?: RequestInit): Promise<T> => {
-    const response = await fetch(url, options);
-    if (response.status == 401) { 
-        window.location.href = "/";
-     }
-    if (!response.ok) throw new Error('Failed to fetch data');
-    return response.json();
+    try {
+        const response = await fetch(url, options);
+
+        if (response.status === 401) {
+            sessionStorage.setItem("toastMessage", "Unauthorized access"); 
+            window.location.href = "/";
+        }
+
+        if (!response.ok) {
+            toast.error('Failed to fetch data');
+        }
+
+        return response.json();
+    } catch (error) {
+        toast.error(error instanceof Error ? error.message : "Something went wrong");
+        return Promise.reject(error);
+    }
 };

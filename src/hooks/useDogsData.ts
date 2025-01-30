@@ -3,7 +3,6 @@ import { Dog, DogIDs, AgeRange, GridSort } from '@/types/Interfaces';
 import { buildSearchQueryParams } from '@/utils/queryBuilder';
 import { fetchData } from '@/utils/fetchData';
 
-
 export function useDogsData() {
   const [categories, setCategories] = useState<string[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -77,8 +76,6 @@ export function useDogsData() {
   }, [API_BASE_URL]);
 
   useEffect(() => {
-    console.log(ageRange);
-    
     if (isFirstRun) {
       setIsFirstRun(false);
       return;

@@ -12,7 +12,6 @@ export default function Match() {
     const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
     const dialogRef = useRef<HTMLDialogElement | null>(null);
     const [dogData, setDogData] = useState<Dog | null>(null);
-    const [error, setError] = useState<Error | null>(null);
 
     const removeFavorite = (dog: Dog) => {
         removeFavoriteDog(dog);
@@ -20,7 +19,6 @@ export default function Match() {
 
     const requestDog = async () => {
         try {
-            setError(null);
             const result: MatchResult = await fetchData(API_BASE_URL + '/dogs/match', {
                 method: 'POST',
                 credentials: 'include',
@@ -46,8 +44,7 @@ export default function Match() {
             }
         } catch (e: unknown) {
             if (e instanceof Error) {
-                setError(e);
-
+                
             } else {
                 console.error('An unknown error occurred');
             }
@@ -64,10 +61,8 @@ export default function Match() {
             <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold mb-4">Your Favorite Dogs</h1>
                 <p>Make a request to get a suitable dog for you by clicking the button</p>
-
                 <button data-testid="dog-button-popup" onClick={requestDog} className="bg-red-500 text-white text-xl px-8 py-3 mt-4">PUSH THE BUTTON</button>
             </div>
-
 
             <CustomDialog
                 title="We have a winner!!!"
@@ -85,7 +80,6 @@ export default function Match() {
             ) : (
                 <p className="text-lg">You have no favorite dogs yet.</p>
             )}
-            {error && <p className="text-lg text-red-500">{error.message}. Try to add dogs to your favorite list</p>}
         </div>
     );
 }
