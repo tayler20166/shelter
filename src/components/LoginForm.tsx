@@ -1,6 +1,8 @@
 "use client"
 import React, { useState } from "react";
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginForm() {
     const router = useRouter();
@@ -43,18 +45,27 @@ export default function LoginForm() {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (!validate()) return;
+        try {
+            const res = await fetch(`${API_BASE_URL}/auth/login`, {
+                method: "POST",
+                credentials: "include",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
 
-        const res = await fetch(`${API_BASE_URL}/auth/login`, {
-            method: "POST",
-            credentials: "include",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        });
-
-        if (res.ok) {
-            router.push('/search');
+            if (res.ok) {
+                router.push('/search');
+            }
+            if (!res.ok) {
+                throw new Error(`HTTP error! Status: ${res.status}`);
+              }
+        } catch (error) {
+            if(error instanceof Error){
+                toast.error(error.message);
+            }
+            return Promise.reject(error);
         }
     };
 

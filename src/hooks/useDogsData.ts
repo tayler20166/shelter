@@ -73,7 +73,7 @@ export function useDogsData() {
     }
 
     fetchBreeds();
-  }, [API_BASE_URL]);
+  }, []);
 
   useEffect(() => {
     if (isFirstRun) {

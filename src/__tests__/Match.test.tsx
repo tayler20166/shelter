@@ -87,7 +87,7 @@ describe('Match Component', () => {
       favoriteDogIds: ['NXGFTIcBOvEgQ5OCx8A1'],
     });
 
-    mockFetchData.mockResolvedValueOnce(storedDogs2).mockResolvedValueOnce(storedDogs2);
+    mockFetchData.mockResolvedValueOnce(fetchedMatch).mockResolvedValueOnce(storedDogs2);
   });
 
   it('renders page key elements correctly', () => {

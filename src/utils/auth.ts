@@ -9,9 +9,7 @@ export const logoutHandler = async () => {
 
         if (res.ok) {
             window.location.href = "/";
-        } else {
-            console.log('Logout failed with status:', res.status);
-        }
+        } 
     } catch (e: unknown) {
         if (e instanceof Error) {
             console.error('Logout failed: ' + e.message);
