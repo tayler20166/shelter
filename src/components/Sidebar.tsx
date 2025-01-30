@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 type SidebarProps = {
     items: string[];
     activeItems: string[];

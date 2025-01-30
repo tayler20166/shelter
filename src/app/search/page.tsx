@@ -6,7 +6,7 @@ import CategorySelector from '@/components/CategorySelector';
 import GridCardsPerPage from '@/components/GridCardsPerPage';
 import AgeSelector from '@/components/AgeSelector';
 import SortingSelector from '@/components/SortingSelector';
-import { handleCategoryClick, handleSortChange, handleAgeChange, handleChangeCardsPerPage, handlePrevPage, handleNextPage } from '@/utils/dogHandlers';
+import { handleCategoryClick, handleChangeCardsPerPage, handlePrevPage, handleNextPage } from '@/utils/dogHandlers';
 import { useRef } from 'react';
 
 export default function Search() {

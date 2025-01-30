@@ -24,7 +24,7 @@ export function useDogsData() {
   const handleAgeRangeSubmit = () => {
     setAgeRange(localAgeRange);
   };
-  const [sortOptions, setSortOptions] = useState<GridSort[]>([
+  const sortOptions : GridSort[] = [
     {
       field: 'breed',
       order: 'asc',
@@ -35,7 +35,7 @@ export function useDogsData() {
       order: 'desc',
       text: 'Breed ↓ (Descending)'
     },
-  ]);
+  ];
   const [activeSortOption, setActiveSortOption] = useState<GridSort>({
     field: 'breed',
     order: 'asc',
