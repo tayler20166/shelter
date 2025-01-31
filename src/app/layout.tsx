@@ -15,14 +15,16 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  
+
 
   return (
     <html lang="en">
       <body>
         <div className="flex flex-col min-h-screen">
           <Header />
-          {children}
+          <main className="flex items-center flex-col flex-grow">
+            {children}
+          </main>
           <Footer />
           <ToastContainer position="top-right" autoClose={3000} />
         </div>
