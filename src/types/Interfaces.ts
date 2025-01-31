@@ -6,12 +6,13 @@ export interface Dog {
     zip_code: string;
     breed: string;
 }
-export interface DogIDs {
+export interface SearchResult {
     prev: string | null;
     next: string | null;
     resultIds: string[];
     total: number;
 }
+
 export interface Location {
     zip_code: string;
     latitude: number;
@@ -35,4 +36,8 @@ export interface GridSort {
     field: string;
     order: 'asc' | 'desc';
     text: string;
+}
+export interface Pagination {
+    prevPage: string | null;
+    nextPage:  string | null;
 }

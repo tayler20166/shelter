@@ -1,163 +1,39 @@
-import { useState, useEffect } from 'react';
-import { Dog, DogIDs, AgeRange, GridSort } from '@/types/Interfaces';
-import { buildSearchQueryParams } from '@/utils/queryBuilder';
-import { fetchData } from '@/utils/fetchData';
+import { useState, useEffect } from "react";
+import { Dog, SearchResult } from "@/types/Interfaces";
 import { API_URL } from "@/constants";
 
-export function useDogsData() {
-  const [categories, setCategories] = useState<string[]>([]);
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+export function useDogsData(searchResult: SearchResult | null) {
   const [dogs, setDogs] = useState<Dog[]>([]);
-  const [dogsIDs, setDogsIDs] = useState<DogIDs | null>(null);
-  const optionsCardsPerPage = [12, 24, 36];
-  const [cardsPerPage, setCardsPerPage] = useState(12);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [pagination, setPagination] = useState<{
-    prevPage: string | null;
-    nextPage: string | null;
-  }>({
-    prevPage: null,
-    nextPage: null
-  });
-  const [ageRange, setAgeRange] = useState<AgeRange>({ ageMin: '', ageMax: '' });
-  const [localAgeRange, setLocalAgeRange] = useState<AgeRange>({ ageMin: '', ageMax: '' });
-  const handleAgeRangeSubmit = () => {
-    setAgeRange(localAgeRange);
-  };
-  const sortOptions: GridSort[] = [
-    {
-      field: 'breed',
-      order: 'asc',
-      text: 'Breed ↑ (Ascending)'
-    },
-    {
-      field: 'breed',
-      order: 'desc',
-      text: 'Breed ↓ (Descending)'
-    },
-  ];
-  const [activeSortOption, setActiveSortOption] = useState<GridSort>({
-    field: 'breed',
-    order: 'asc',
-    text: 'Breed ↑ (Ascending)'
-  });
-  const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const [field, order] = e.target.value.split(':');
-
-    const newSortOption = sortOptions.find(
-      (option) => option.field === field && option.order === order
-    );
-
-    if (newSortOption) {
-      setActiveSortOption(newSortOption);
-    }
-  };
-  const [isFirstRun, setIsFirstRun] = useState(true);
 
   useEffect(() => {
-    async function fetchBreeds() {
+    async function fetchDogs() {
+      setLoading(true);
       try {
-        const data = await fetchData<string[]>(`${API_URL}/dogs/breeds`, { credentials: 'include' });
-        setCategories(data);
+        let data = [];
+        if (!searchResult) return;
+
+          const dogIDs = searchResult.resultIds;
+          const response = await fetch(`${API_URL}/dogs`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(dogIDs),
+            credentials: "include",
+          });
+          if (!response.ok) throw new Error("Error fetching dogs");
+          data = await response.json();
+        setDogs(data);
       } catch (err) {
-        console.error('Error fetching breeds:', err);
-      }
-      fetchDogsIDs([], ageRange, activeSortOption, cardsPerPage);
-    }
-
-    fetchBreeds();
-  }, []);
-
-  useEffect(() => {
-    if (isFirstRun) {
-      setIsFirstRun(false);
-      return;
-    }
-    if (selectedCategories.length > 0) {
-      fetchDogsIDs(selectedCategories, ageRange, activeSortOption, cardsPerPage);
-    } else {
-      fetchDogsIDs([], ageRange, activeSortOption, cardsPerPage);
-    }
-  }, [selectedCategories, ageRange, activeSortOption, cardsPerPage]);
-
-  const fetchDogsIDs = async (selectedCategoriesArr: string[], ageRange: AgeRange, activeSortOption: GridSort, cardsPerPage: number) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const queryParams = buildSearchQueryParams(selectedCategoriesArr, ageRange, activeSortOption, cardsPerPage);
-      const searchResult = await fetchData<DogIDs>(`${API_URL}/dogs/search${queryParams}`, {
-        method: 'GET',
-        credentials: 'include',
-      });
-      setDogsIDs(searchResult);
-      setPagination({
-        prevPage: searchResult.prev || null,
-        nextPage: searchResult.next || null
-      });
-    } catch (err: unknown) {
-      if (err instanceof Error) {
-        setError(err.message);
-      } else {
-        setError('An unexpected error occurred');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchDogsIDsWithNav = async (link: string | null) => {
-    if (link) {
-      try {
-        const searchResult = await fetchData<DogIDs>(`${API_URL}${link}`, {
-          method: 'GET',
-          credentials: 'include',
-        });
-        setDogsIDs(searchResult);
-        setPagination({
-          prevPage: searchResult.prev || null,
-          nextPage: searchResult.next || null
-        });
-      } catch (e: unknown) {
-        if (e instanceof Error) {
-          setError(e.message);
-        } else {
-          console.error('An unknown error occurred');
-        }
+        setError("Error fetching dogs");
       } finally {
         setLoading(false);
       }
     }
-  };
-
-  useEffect(() => {
-    async function fetchDogs() {
-      if (dogsIDs) {
-        try {
-          const response = await fetch(`${API_URL}/dogs`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dogsIDs.resultIds),
-            credentials: 'include'
-          });
-          if (response.status == 401) {
-            window.location.href = "/"
-          }
-          if (!response.ok) {
-            throw new Error('Error fetching second data');
-          }
-          const secondResult = await response.json();
-          setDogs(secondResult);
-        } catch (error) {
-          console.error('Error fetching breeds:', error);
-        }
-      }
-    };
     fetchDogs();
-  }, [dogsIDs, API_URL]);
+  }, [searchResult]);
 
-
-  return { categories, selectedCategories, setSelectedCategories, dogs, fetchDogsIDs, localAgeRange, setLocalAgeRange, handleAgeRangeSubmit, loading, error, fetchDogsIDsWithNav, optionsCardsPerPage, cardsPerPage, setCardsPerPage, pagination, setPagination, sortOptions, activeSortOption, handleSortChange };
+  return {
+    dogs
+  };
 }

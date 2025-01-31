@@ -20,9 +20,9 @@ export const handleChangeCardsPerPage = (e: React.ChangeEvent<HTMLSelectElement>
     setCardsPerPage(Number(e.target.value));
 };
 
-export const handlePrevPage = (prevPage: string, handleDogsFetchWithNav: (link: string) => void) => {
-    handleDogsFetchWithNav(prevPage);
+export const handlePrevPage = (prevPage: string, fetchSearchResult: (link: string) => void) => {
+    fetchSearchResult(prevPage);
 };
-export const handleNextPage = (nextPage: string, handleDogsFetchWithNav: (link: string) => void) => {
-    handleDogsFetchWithNav(nextPage);
+export const handleNextPage = (nextPage: string, fetchSearchResult: (link: string) => void) => {
+    fetchSearchResult(nextPage);
 };

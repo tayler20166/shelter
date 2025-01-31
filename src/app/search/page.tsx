@@ -1,5 +1,7 @@
 'use client'
 
+import { useDogSearch } from '@/hooks/useDogSearch';
+import { useDogBreeds } from '@/hooks/useDogsBreeds';
 import { useDogsData } from '@/hooks/useDogsData';
 import DogGrid from '@/components/DogGrid';
 import CategorySelector from '@/components/CategorySelector';
@@ -10,23 +12,27 @@ import { handleCategoryClick, handleChangeCardsPerPage, handlePrevPage, handleNe
 import { useRef } from 'react';
 
 export default function Search() {
+  const { categories } = useDogBreeds();
+
   const {
-    categories,
     selectedCategories,
     setSelectedCategories,
     localAgeRange,
     setLocalAgeRange,
-    handleAgeRangeSubmit,
-    pagination,
-    fetchDogsIDsWithNav,
-    optionsCardsPerPage,
-    cardsPerPage,
-    dogs,
-    setCardsPerPage,
+    searchResult,
     sortOptions,
     activeSortOption,
-    handleSortChange
-  } = useDogsData();
+    handleSortChange,
+    pagination,
+    setAgeRange,
+    optionsCardsPerPage,
+    cardsPerPage,
+    setCardsPerPage,
+    fetchSearchResult,
+
+  } = useDogSearch();
+
+  const { dogs } = useDogsData(searchResult);
 
   const sortingDialogRef = useRef<HTMLDialogElement>(null);
 
@@ -44,7 +50,7 @@ export default function Search() {
         <AgeSelector
           ageRange={localAgeRange}
           onAgeChange={setLocalAgeRange}
-          handleAgeRangeSubmit={handleAgeRangeSubmit}
+          handleAgeRangeSubmit={setAgeRange}
         />
 
       </div>
@@ -75,8 +81,8 @@ export default function Search() {
 
         <DogGrid dogs={dogs} />
         <div className="flex">
-          {pagination.prevPage && <button className="mr-auto" onClick={() => handlePrevPage(pagination.prevPage as string, fetchDogsIDsWithNav)}>prev</button>}
-          {pagination.nextPage && <button className="ml-auto" onClick={() => handleNextPage(pagination.nextPage as string, fetchDogsIDsWithNav)}>next</button>}
+          {pagination.prevPage && <button className="mr-auto" onClick={() => handlePrevPage(pagination.prevPage as string, fetchSearchResult)}>prev</button>}
+          {pagination.nextPage && <button className="ml-auto" onClick={() => handleNextPage(pagination.nextPage as string, fetchSearchResult)}>next</button>}
         </div>
       </div>
 
@@ -92,7 +98,7 @@ export default function Search() {
         <AgeSelector
           ageRange={localAgeRange}
           onAgeChange={setLocalAgeRange}
-          handleAgeRangeSubmit={handleAgeRangeSubmit}
+          handleAgeRangeSubmit={setAgeRange}
         />
         <GridCardsPerPage
           className="mb-4 mt-3"
