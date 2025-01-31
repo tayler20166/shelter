@@ -7,6 +7,8 @@ import { fetchData } from '@/utils/fetchData';
 import CustomDialog from '@/components/CustomDialog';
 import DogGridCard from '@/components/DogGridCard';
 import { API_URL } from "@/constants";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function Match() {
     const { storedDogs, removeFavoriteDog, favoriteDogIds } = useFavorites();
@@ -19,32 +21,37 @@ export default function Match() {
 
     const requestDog = async () => {
         try {
-            const result: MatchResult = await fetchData(API_URL + '/dogs/match', {
-                method: 'POST',
-                credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(favoriteDogIds),
-            });
-            if (result) {
-                const data: Dog[] = await fetchData(API_URL + '/dogs', {
+            if(favoriteDogIds.length > 0){
+                const result: MatchResult = await fetchData(API_URL + '/dogs/match', {
                     method: 'POST',
                     credentials: 'include',
                     headers: {
                         'Content-Type': 'application/json',
                     },
-                    body: JSON.stringify([result.match]),
+                    body: JSON.stringify(favoriteDogIds),
                 });
-                if (data[0]) {
-                    setDogData(data[0]);
-                    dialogRef.current?.showModal();
+                if (result) {
+                    const data: Dog[] = await fetchData(API_URL + '/dogs', {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify([result.match]),
+                    });
+                    if (data[0]) {
+                        setDogData(data[0]);
+                        dialogRef.current?.showModal();
+                    }
+    
                 }
-
+            }else{
+                throw new Error('No dogs were chosen to match');
             }
-        } catch (e: unknown) {
-            if (e instanceof Error) {
-                
+            
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                toast.error(error instanceof Error ? error.message : "Something went wrong");
             } else {
                 console.error('An unknown error occurred');
             }
