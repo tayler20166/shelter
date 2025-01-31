@@ -17,12 +17,14 @@ export default function Header() {
             <div className="dark:bg-[#1e1f23] bg-white">
                 <div className="container m-auto py-4 flex flex-col sm:flex-row sm:justify-between items-center">
                     <Link className="logo text-3xl font-bold" href="/">Dogs Shelter</Link>
-                    <div>
-                        <Link className="hover:underline" href="/">Home</Link>
-                        <Link className="ml-2 hover:underline" href="/search">Search</Link>
-                        <Link className="ml-2 hover:underline" href="/match">Match</Link>
-                        {pathname !== "/" && <button className="ml-8" onClick={logoutHandler}>Log out</button>}
-                    </div>
+                    {pathname !== "/" &&
+                        <div>
+                            <Link className="hover:underline" href="/">Home</Link>
+                            <Link className="ml-2 hover:underline" href="/search">Search</Link>
+                            <Link className="ml-2 hover:underline" href="/match">Match</Link>
+                            <button className="ml-8" onClick={logoutHandler}>Log out</button>
+                        </div>
+                    }
                 </div>
             </div>
             <div className="bg-[#1e1f23] text-white mb-6">
