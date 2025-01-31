@@ -25,7 +25,7 @@ export function useDogsData() {
   const handleAgeRangeSubmit = () => {
     setAgeRange(localAgeRange);
   };
-  const sortOptions : GridSort[] = [
+  const sortOptions: GridSort[] = [
     {
       field: 'breed',
       order: 'asc',
@@ -58,14 +58,8 @@ export function useDogsData() {
   useEffect(() => {
     async function fetchBreeds() {
       try {
-        const cachedBreeds = localStorage.getItem('breeds');
-        if (cachedBreeds) {
-          setCategories(JSON.parse(cachedBreeds));
-        } else {
-          const data = await fetchData<string[]>(`${API_URL}/dogs/breeds`, { credentials: 'include' });
-          setCategories(data);
-          localStorage.setItem('breeds', JSON.stringify(data));
-        }
+        const data = await fetchData<string[]>(`${API_URL}/dogs/breeds`, { credentials: 'include' });
+        setCategories(data);
       } catch (err) {
         console.error('Error fetching breeds:', err);
       }
