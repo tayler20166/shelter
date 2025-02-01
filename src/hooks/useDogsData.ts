@@ -14,18 +14,22 @@ export function useDogsData(searchResult: SearchResult | null) {
         let data = [];
         if (!searchResult) return;
 
-          const dogIDs = searchResult.resultIds;
-          const response = await fetch(`${API_URL}/dogs`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(dogIDs),
-            credentials: "include",
-          });
-          if (!response.ok) throw new Error("Error fetching dogs");
-          data = await response.json();
+        const dogIDs = searchResult.resultIds;
+        const response = await fetch(`${API_URL}/dogs`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(dogIDs),
+          credentials: "include",
+        });
+        if (!response.ok) throw new Error("Error fetching dogs");
+        data = await response.json();
         setDogs(data);
-      } catch (err) {
-        setError("Error fetching dogs");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Error fetching dogs data");
+        }
       } finally {
         setLoading(false);
       }
@@ -34,6 +38,8 @@ export function useDogsData(searchResult: SearchResult | null) {
   }, [searchResult]);
 
   return {
-    dogs
+    dogs,
+    loading,
+    error
   };
 }

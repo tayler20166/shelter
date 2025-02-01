@@ -13,8 +13,12 @@ export function useDogBreeds() {
       try {
         const data = await fetchData<string[]>(`${API_URL}/dogs/breeds`, { credentials: "include" });
         setCategories(data);
-      } catch (err) {
-        setError("Error fetching breeds");
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError("Error fetching dogs breeds");
+        }
       } finally {
         setLoading(false);
       }
