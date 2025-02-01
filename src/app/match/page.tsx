@@ -31,7 +31,7 @@ export default function Match() {
                     body: JSON.stringify(favoriteDogIds),
                 });
                 if (result) {
-                    let matchedDog = storedDogs.filter((item) => {
+                    const matchedDog = storedDogs.filter((item) => {
                         return item.id === result.match;
                     });
 
