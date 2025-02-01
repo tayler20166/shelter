@@ -31,19 +31,14 @@ export default function Match() {
                     body: JSON.stringify(favoriteDogIds),
                 });
                 if (result) {
-                    const data: Dog[] = await fetchData(API_URL + '/dogs', {
-                        method: 'POST',
-                        credentials: 'include',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify([result.match]),
+                    let matchedDog = storedDogs.filter((item) => {
+                        return item.id === result.match;
                     });
-                    if (data[0]) {
-                        setDogData(data[0]);
+
+                    if (matchedDog[0]) {
+                        setDogData(matchedDog[0]);
                         dialogRef.current?.showModal();
                     }
-    
                 }
             }else{
                 throw new Error('No dogs were chosen to match');
