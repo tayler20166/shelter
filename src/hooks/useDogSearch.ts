@@ -39,7 +39,11 @@ export function useDogSearch() {
       setSearchResult(searchResult);
       setPagination({ prevPage: searchResult.prev || null, nextPage: searchResult.next || null });
     } catch (err) {
-      setError("Error fetching dog IDs");
+      if(err instanceof Error){
+        setError(err.message);
+      }else{
+        setError("Error fetching dog IDs");
+      }
     } finally {
       setLoading(false);
     }
