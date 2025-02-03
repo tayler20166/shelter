@@ -1,16 +1,11 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, within } from '@testing-library/react';
 import Match from '@/app/match/page';
 import { useFavorites } from '@/hooks/useFavorites';
 import { fetchData } from '@/utils/fetchData';
 import { Dog, Match as MatchResult } from '@/types/Interfaces';
+jest.mock('@/hooks/useFavorites');
+jest.mock('@/utils/fetchData');
 
-jest.mock('@/hooks/useFavorites', () => ({
-  useFavorites: jest.fn(),
-}));
-
-jest.mock('@/utils/fetchData', () => ({
-  fetchData: jest.fn(),
-}));
 
 const storedDogs: Dog[] = [
   {
@@ -46,27 +41,10 @@ const storedDogs: Dog[] = [
     id: "RXGFTIcBOvEgQ5OCx8A1"
   },
 ];
-const storedDogs2: Dog[] = [
-  {
-    img: "https://frontend-take-home.fetch.com/dog-images/n02110627-affenpinscher/n02110627_11875.jpg",
-    name: "Nestor",
-    age: 7,
-    breed: "Affenpinscher",
-    zip_code: "08014",
-    id: "VXGFTIcBOvEgQ5OCx8A2"
-  },
-  {
-    img: "https://frontend-take-home.fetch.com/dog-images/n02110627-affenpinscher/n02110627_12070.jpg",
-    name: "Jaunita",
-    age: 9,
-    breed: "Affenpinscher",
-    zip_code: "79345",
-    id: "WXGFTIcBOvEgQ5OCx8A2"
-  }
-];
+
 const fetchedMatch: MatchResult = {
-  match: "WXGFTIcBOvEgQ5OCx8A2"
-}
+  match: "NnGFTIcBOvEgQ5OCx8A1"
+};
 
 
 describe('Match Component', () => {
@@ -87,7 +65,7 @@ describe('Match Component', () => {
       favoriteDogIds: ['NXGFTIcBOvEgQ5OCx8A1'],
     });
 
-    mockFetchData.mockResolvedValueOnce(fetchedMatch).mockResolvedValueOnce(storedDogs2);
+    mockFetchData.mockReturnValue(fetchedMatch);
   });
 
   it('renders page key elements correctly', () => {
@@ -109,9 +87,11 @@ describe('Match Component', () => {
     fireEvent.click(button);
 
     await waitFor(() => {
-      expect(mockFetchData).toHaveBeenCalledTimes(2);
-      expect(screen.getByTestId('dog-popup')).toBeInTheDocument();
-      expect(screen.getByTestId('dog-grid-card-match')).toBeInTheDocument();
+      expect(mockFetchData).toHaveBeenCalledTimes(1);  
+      const dogPopup = screen.getByTestId('dog-popup');
+      const dogCard = within(dogPopup).getByTestId('dog-card');
+      expect(dogPopup).toBeInTheDocument();
+      expect(dogCard).toBeInTheDocument();
     });
   });
 
@@ -123,7 +103,7 @@ describe('Match Component', () => {
     fireEvent.click(favoriteButton);
 
     expect(toggleFavorite).toHaveBeenCalledTimes(1);
-    expect(toggleFavorite).toHaveBeenCalledWith(storedDogs[0]); // Check correct dog
+    expect(toggleFavorite).toHaveBeenCalledWith(storedDogs[0]); 
 
   });
 
@@ -134,22 +114,20 @@ describe('Match Component', () => {
     fireEvent.click(favoriteButton);
 
     expect(removeFavoriteDog).toHaveBeenCalledTimes(1);
-    expect(removeFavoriteDog).toHaveBeenCalledWith(storedDogs[0]); // Check correct dog
+    expect(removeFavoriteDog).toHaveBeenCalledWith(storedDogs[0]); 
 
   });
 
   it('sends request when the match button is clicked', async () => {
     HTMLDialogElement.prototype.showModal = jest.fn();
 
-
     render(<Match />);
 
     fireEvent.click(screen.getByTestId('dog-button-popup'));
 
     await waitFor(() => {
-      expect(fetchData).toHaveBeenCalledTimes(2);
+      expect(fetchData).toHaveBeenCalledTimes(1);
       expect(fetchData).toHaveBeenCalledWith(expect.stringContaining('/dogs/match'), expect.any(Object));
-      expect(fetchData).toHaveBeenCalledWith(expect.stringContaining('/dogs'), expect.any(Object));
     });
 
     expect(screen.getByTestId('dog-popup')).toBeInTheDocument();
