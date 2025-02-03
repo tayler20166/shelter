@@ -54,17 +54,18 @@ export function useDogSearch() {
   };
 
   const fetchSearchResultWithNav = async (link: string) => {
-    return await fetchData<SearchResult>(link, { credentials: "include" });
+    return await fetchData<SearchResult>(`${API_URL}${link}`, { credentials: "include" });
   };
 
   useEffect(() => {
     fetchSearchResult();
-  }, [selectedCategories, ageRange, activeSortOption]);
+  }, [selectedCategories, ageRange, activeSortOption, cardsPerPage]);
 
   return {
     selectedCategories,
     setSelectedCategories,
-    ageRange, setAgeRange,
+    ageRange, 
+    setAgeRange,
     localAgeRange,
     setLocalAgeRange,
     fetchSearchResult,
