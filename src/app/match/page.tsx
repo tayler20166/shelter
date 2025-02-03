@@ -34,7 +34,7 @@ export default function Match() {
                     const matchedDog = storedDogs.filter((item) => {
                         return item.id === result.match;
                     });
-
+                 
                     if (matchedDog[0]) {
                         setDogData(matchedDog[0]);
                         dialogRef.current?.showModal();
@@ -85,7 +85,3 @@ export default function Match() {
         </div>
     );
 }
-
-
-
-
