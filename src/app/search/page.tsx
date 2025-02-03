@@ -1,7 +1,7 @@
 'use client'
 
 import { useDogSearch } from '@/hooks/useDogSearch';
-import { useDogBreeds } from '@/hooks/useDogsBreeds';
+import { useDogsBreeds } from '@/hooks/useDogsBreeds';
 import { useDogsData } from '@/hooks/useDogsData';
 import DogGrid from '@/components/DogGrid';
 import CategorySelector from '@/components/CategorySelector';
@@ -12,7 +12,7 @@ import { handleCategoryClick, handleChangeCardsPerPage, handlePrevPage, handleNe
 import { useRef } from 'react';
 
 export default function Search() {
-  const { categories } = useDogBreeds();
+  const { categories } = useDogsBreeds();
 
   const {
     selectedCategories,

@@ -52,5 +52,10 @@ export function useFavorites() {
         localStorage.setItem('favoriteDogs', JSON.stringify(updatedStoredDogs));
     };
 
-    return { storedDogs, favoriteDogIds, toggleFavorite, removeFavoriteDog };
+    return { 
+        storedDogs, 
+        favoriteDogIds, 
+        toggleFavorite, 
+        removeFavoriteDog 
+    };
 }
