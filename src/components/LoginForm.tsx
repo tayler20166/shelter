@@ -77,7 +77,7 @@ export default function LoginForm() {
                     type="text"
                     name="name"
                     placeholder="Name..."
-                    className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md px-2"
+                    className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md px-2 dark:text-black"
                     onChange={handleChange}
                     value={formData.name}
                 />
@@ -90,7 +90,7 @@ export default function LoginForm() {
                     type="text"
                     name="email"
                     placeholder="Email..."
-                    className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md px-2"
+                    className="block w-[100%] h-[42px] border-[1px] border-[#efefef] rounded-md px-2 dark:text-black"
                     onChange={handleChange}
                     value={formData.email}
                 />
